@@ -1,9 +1,23 @@
 
 
-export default function Home() {
-  return (
- <div className="text-4xl font-bold text-green-600">
-  Hello World!
- </div>
-  );
+import {auth} from "@/lib/auth";
+import {redirect} from "next/navigation";
+
+import {headers} from "next/headers";
+import {HomeView} from "@/modules/home/ui/views/home-view";
+
+
+const Page =async() => {
+const session=await auth.api.getSession ({
+  headers:await headers(),
+});
+
+if(!session) {
+  redirect("/sign-in");
 }
+
+  return <HomeView />
+};
+
+export default Page;
+
